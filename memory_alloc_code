@@ -1,0 +1,82 @@
+
+=====================================
+
+/////////////////////////////////////////////////
+real *alloc1d(int n1) {
+     real *dummy = (real *) calloc(n1, sizeof(real));
+     if (dummy == NULL) {
+         printf(" Could not allocate memory 1d \n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     return dummy;
+}
+/////////////////////////////////////////////////
+real **alloc2d(int n1, int n2) {
+     real **dummy = (real **) calloc(n1, sizeof(real *));
+     if (dummy == NULL) {
+         printf(" Could not allocate memory 1 2d \n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     dummy[0] = (real *) calloc(n1*n2, sizeof(real));
+     if (dummy[0] == NULL) {
+         printf(" Could not allocate memory 2 2d\n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     for (int i = 1; i < n1; i++)
+         dummy[i] = dummy[i-1] + n2;
+     return dummy;
+}
+/////////////////////////////////////////////////
+real ***alloc3d(int n1, int n2, int n3) {
+     real ***dummy = (real ***) calloc(n1, sizeof(real **));
+     if (dummy == NULL) {
+         printf(" Could not allocate memory 1 3d\n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     dummy[0] = (real **) calloc(n1*n2, sizeof(real *));
+     if (dummy[0] == NULL) {
+         printf(" Could not allocate memory 2 3d\n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     dummy[0][0] = (real*) calloc(n1*n2*n3, sizeof(real));
+     if (dummy[0][0] == NULL) {
+         printf(" Could not allocate memory 3 3d\n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     for (int i = 1; i < n1; i++)
+         dummy[i] = dummy[i-1] + n2;
+     for (int i = 1; i < n1*n2; i++)
+         dummy[0][i] = dummy[0][i-1] + n3;
+     return dummy;
+}
+/////////////////////////////////////////////////
+real ****alloc4d(int n1, int n2, int n3, int n4) {
+     real ****dummy = (real ****) calloc(n1, sizeof(real ***));
+     if (dummy == NULL) {
+         printf(" Could not allocate memory 1 4d\n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     dummy[0] = (real ***) calloc(n1*n2, sizeof(real **));
+     if (dummy[0] == NULL) {
+         printf(" Could not allocate memory 2 4d\n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     dummy[0][0] = (real **) calloc(n1*n2*n3, sizeof(real *));
+     if (dummy[0][0] == NULL) {
+         printf(" Could not allocate memory 3 4d\n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     dummy[0][0][0] = (real*) calloc(n1*n2*n3*n4, sizeof(real));
+     if (dummy[0][0][0] == NULL) {
+         printf(" Could not allocate memory 4 4d\n");
+         MPI_Abort(MPI_COMM_WORLD, 1);
+     }
+     for (int i = 1; i < n1; i++)
+         dummy[i] = dummy[i-1] + n2;
+     for (int i = 1; i < n1*n2; i++)
+         dummy[0][i] = dummy[0][i-1] + n3;
+     for (int i = 1; i < n1*n2*n3; i++)
+         dummy[0][0][i] = dummy[0][0][i-1] + n4;
+     return dummy;
+}
+/////////////////////////////////////////////////
